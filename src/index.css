@@ -2,16 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  font-family: "Roboto", sans-serif, Arial, Helvetica !important;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+.dark-color {
+  color: #1d1d1d;
+}
+
+.dark-bg {
+  background-color: #1d1d1d;
+}
+
+.btn {
+  @apply py-3 px-8 rounded-3xl border font-medium;
+}
+
+.mod-container {
+  @apply container md:px-28 mx-auto;
+}
+
+.home-card {
+  @apply shadow-xl rounded-3xl flex items-center justify-center flex-col;
 }
