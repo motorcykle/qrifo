@@ -1,5 +1,7 @@
 import React from 'react';
 import Qritems from '../components/QRItems';
+import Modal from '../components/Modal';
+
 
 const Home = () => {
   return (

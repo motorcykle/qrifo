@@ -1,6 +1,9 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 const Landing = () => {
+  const history = useHistory();
+
   return (
     <main className='relative overflow-hidden w-screen flex-1 dark-color grid place-items-center'>
       <h1 className="text-9xl absolute top-0 whitespace-nowrap font-black opacity-5 -z-10">
@@ -20,7 +23,7 @@ const Landing = () => {
         </p>
 
         <div className="flex flex-col">
-          <button className="btn dark-bg text-gray-50 mb-3">Generate a QR code</button>
+          <button onClick={() => history.push('/auth/signin')} className="btn dark-bg text-gray-50 mb-3">Generate a QR code</button>
           <small className=' text-gray-500 '>Want an idea? Turn text instructions to a video 😉</small>
         </div>
       </div>

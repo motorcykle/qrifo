@@ -26,11 +26,11 @@ function App() {
       <div className="flex flex-col min-h-screen px-2 md:px-0 overflow-hidden">
         <Header />
         <Switch>
-          <Route path="/">
+          <Route exact path="/">
             {!auth?.currentUser ? <Home /> : <Landing />}
           </Route>
-          <Route path="/auth">
-            <Auth />
+          <Route exact path="/auth/:type">
+            {!auth?.currentUser ? <Redirect to="/" /> : <Auth />}
           </Route>
           <PrivateRoute exact path="/settings">
             <Settings />
@@ -55,7 +55,7 @@ function PrivateRoute({ children, ...rest }) {
         ) : (
           <Redirect
             to={{
-              pathname: "/auth/login",
+              pathname: "/auth/signin",
               state: { from: location }
             }}
           />

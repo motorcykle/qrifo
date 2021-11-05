@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AddIcon from '../assets/add.png';
 import Qritem from './QRItem';
+import Modal from './Modal';
+
 
 const Qritems = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
   const data = [
     {
       id: "133",
@@ -33,7 +37,8 @@ const Qritems = () => {
 
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7 py-6'>
-      <div className="home-card p-16 cursor-pointer" role="button" aria-label='add qr code'>
+      <Modal open={modalOpen} setOpen={setModalOpen} />
+      <div onClick={() => setModalOpen(true)} className="home-card p-16 cursor-pointer" role="button" aria-label='add qr code'>
         <img src={AddIcon} alt="plus icon" className='opacity-40' />
         <small className='font-normal text-gray-400'>Create QR</small>
       </div>

@@ -5,9 +5,10 @@ const Qritem = ({ data }) => {
   return (
     <div className="home-card p-6 text-center">
 
-      <a href={data?.qrImgUrl} download={`${data?.title}.png`} className='text-xs font-medium text-gray-400 mb-1'>Download QR Image</a>
+      
       <img src={data?.qrImgUrl} alt="" className="  max-h-52 " />
-      <h2 className=" text-2xl mt-6">
+      <a href={data?.qrImgUrl} download={`${data?.title}.png`} className='text-xs font-medium text-gray-400 mt-1'>Download QR Image</a>
+      <h2 className=" text-2xl my-2">
         {data?.title}
       </h2>
       <button className="btn dark-bg text-gray-50 mt-3 flex items-center">

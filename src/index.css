@@ -29,3 +29,17 @@ body {
 .home-card {
   @apply shadow-xl rounded-3xl flex items-center justify-center flex-col;
 }
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+}
+
+.input-group label {
+  @apply font-normal text-xl;
+}
+
+.input-group input {
+  @apply focus:outline-none border-2 border-gray-900 max-w-xl py-2 rounded-3xl mt-1 px-4;
+}
