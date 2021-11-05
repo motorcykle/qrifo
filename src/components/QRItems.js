@@ -40,7 +40,7 @@ const Qritems = () => {
       <Modal open={modalOpen} setOpen={setModalOpen} />
       <div onClick={() => setModalOpen(true)} className="home-card p-16 cursor-pointer" role="button" aria-label='add qr code'>
         <img src={AddIcon} alt="plus icon" className='opacity-40' />
-        <small className='font-normal text-gray-400'>Create QR</small>
+        <small className='font-normal text-gray-400'>Create QR Page</small>
       </div>
 
       {data.length > 0 && data.map(QRItem => <Qritem data={QRItem} />)}

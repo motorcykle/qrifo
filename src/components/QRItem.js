@@ -1,7 +1,10 @@
 import React from 'react';
 import { PencilAltIcon } from '@heroicons/react/outline';
+import { useHistory } from 'react-router-dom';
 
 const Qritem = ({ data }) => {
+  const history = useHistory();
+
   return (
     <div className="home-card p-6 text-center">
 
@@ -11,7 +14,7 @@ const Qritem = ({ data }) => {
       <h2 className=" text-2xl my-2">
         {data?.title}
       </h2>
-      <button className="btn dark-bg text-gray-50 mt-3 flex items-center">
+      <button onClick={() => history.push(`/edit/${data.id}`)} className="btn dark-bg text-gray-50 mt-3 flex items-center">
         <PencilAltIcon className='h-7 mr-3' />
         Edit QR Page
       </button>

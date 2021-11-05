@@ -8,11 +8,12 @@ import {
   Redirect
 } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
-import Settings from './pages/Settings';
 import Auth from './pages/Auth';
 import Landing from './pages/Landing';
 import { app } from './firebase';
 import Home from './pages/Home';
+import Edit from './pages/Edit';
+import ContactSupport from './pages/ContactSupport';
 
 function App() {
   const auth = getAuth(app);
@@ -32,8 +33,11 @@ function App() {
           <Route exact path="/auth/:type">
             {!auth?.currentUser ? <Redirect to="/" /> : <Auth />}
           </Route>
-          <PrivateRoute exact path="/settings">
-            <Settings />
+          <PrivateRoute exact path="/edit/:qrpageid">
+            <Edit />
+          </PrivateRoute>
+          <PrivateRoute exact path="/contactsupport">
+            <ContactSupport />
           </PrivateRoute>
         </Switch>
       </div>
@@ -50,7 +54,7 @@ function PrivateRoute({ children, ...rest }) {
     <Route
       {...rest}
       render={({ location }) =>
-        user ? (
+        !user ? (
           children
         ) : (
           <Redirect

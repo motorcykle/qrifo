@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { getAuth } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 import { app } from '../firebase';
 import { CogIcon } from '@heroicons/react/outline';
 
 const Header = () => {
   const history = useHistory();
-  const user = null;
+  const user = {};
 
   const direct = type => history.push(`/auth/${type}`);
 
@@ -21,9 +21,10 @@ const Header = () => {
         <div className="flex items-stretch">
           {user ? (
             <>
-              <button className="btn">Sign Out</button>
-              <button className='btn ml-3'>
-                <CogIcon className='h-6 dark-color' />
+              <button onClick={signOut} className="btn">Sign Out</button>
+              <button onClick={() => history.push('/contactsupport')} className='btn ml-3 flex items-center'>
+                <CogIcon className='h-6 dark-color mr-1' />
+                Contact Support
               </button>
             </>
           ) : (
