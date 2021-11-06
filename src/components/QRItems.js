@@ -13,7 +13,7 @@ const Qritems = () => {
       title: 'Airbnb Canyon Ranch Leave Instructions',
       editorState: {},
       timestamp: "6:08:48 AM",
-      videoUrl: "",
+      videoUrl: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
       qrImgUrl: "https://miro.medium.com/max/990/1*FX_LPYdLaX1IPlohROEaQA.jpeg"
     }, 
     {
@@ -43,7 +43,7 @@ const Qritems = () => {
         <small className='font-normal text-gray-400'>Create QR Page</small>
       </div>
 
-      {data.length > 0 && data.map(QRItem => <Qritem data={QRItem} />)}
+      {data.length > 0 && data.map(QRItem => <Qritem key={QRItem.id} data={QRItem} />)}
     </div>
   );
 }

@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react';
-import Header from './components/Header';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   Redirect
 } from "react-router-dom";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth } from "firebase/auth";
+import { app } from './firebase';
+import Header from './components/Header';
 import Auth from './pages/Auth';
 import Landing from './pages/Landing';
-import { app } from './firebase';
 import Home from './pages/Home';
 import Edit from './pages/Edit';
 import ContactSupport from './pages/ContactSupport';
+import Qrpage from './pages/QRPage';
 
 function App() {
   const auth = getAuth(app);
@@ -24,7 +24,7 @@ function App() {
 
   return (
     <Router>
-      <div className="flex flex-col min-h-screen px-2 md:px-0 overflow-hidden">
+      <div className="flex flex-col min-h-screen px-2 lg:px-0 overflow-hidden">
         <Header />
         <Switch>
           <Route exact path="/">
@@ -32,6 +32,9 @@ function App() {
           </Route>
           <Route exact path="/auth/:type">
             {!auth?.currentUser ? <Redirect to="/" /> : <Auth />}
+          </Route>
+          <Route exact path="/page/:qrpageid">
+            <Qrpage />
           </Route>
           <PrivateRoute exact path="/edit/:qrpageid">
             <Edit />

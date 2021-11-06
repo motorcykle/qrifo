@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
 import { app } from '../firebase';
-import { CogIcon } from '@heroicons/react/outline';
+import { CogIcon, LogoutIcon, SupportIcon } from '@heroicons/react/outline';
 
 const Header = () => {
   const history = useHistory();
@@ -21,10 +21,13 @@ const Header = () => {
         <div className="flex items-stretch">
           {user ? (
             <>
-              <button onClick={signOut} className="btn">Sign Out</button>
+              <button onClick={signOut} className="btn flex items-center">
+                <LogoutIcon className='h-6 mr-1' />
+                <span className="hidden md:inline-block">Sign Out</span>
+              </button>
               <button onClick={() => history.push('/contactsupport')} className='btn ml-3 flex items-center'>
-                <CogIcon className='h-6 dark-color mr-1' />
-                Contact Support
+                <SupportIcon className='h-6 mr-1' />
+                <span className="hidden md:inline-block">Contact Support</span>
               </button>
             </>
           ) : (

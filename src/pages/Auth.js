@@ -14,7 +14,7 @@ const Auth = () => {
   const signIn = type.toLowerCase() === 'signin';
 
   return (
-    <div className="mod-container shadow-lg py-14 rounded-2xl">
+    <div className="mod-container shadow-lg py-10 px-5 rounded-2xl">
       <h1 className='text-3xl underline'>{signIn ? 'Sign In' : 'Sign Up'}</h1>
       <form className='pt-6 mb-2'>
         <div className="input-group">

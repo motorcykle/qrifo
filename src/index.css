@@ -23,7 +23,7 @@ body {
 }
 
 .mod-container {
-  @apply container md:px-28 mx-auto;
+  @apply container lg:px-28 mx-auto;
 }
 
 .home-card {

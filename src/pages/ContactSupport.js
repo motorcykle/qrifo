@@ -7,9 +7,13 @@ const ContactSupport = () => {
 
   return (
     <div className='mod-container'>
-      <button onClick={() => history.push('/')} className="py-2 px-8 border rounded-3xl">
-        <ArrowNarrowLeftIcon className='h-8 dark-color' />
-      </button>
+      <header>
+        <button onClick={() => history.push('/')} className="py-2 px-8 border rounded-3xl">
+          <ArrowNarrowLeftIcon className='h-8 dark-color' />
+        </button>
+      </header>
+    
+      contact support
     </div>
   );
 }
