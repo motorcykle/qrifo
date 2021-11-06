@@ -3,10 +3,13 @@ import { Link, useHistory } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
 import { app } from '../firebase';
 import { CogIcon, LogoutIcon, SupportIcon } from '@heroicons/react/outline';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../features/userSlice';
 
 const Header = () => {
+  const user = useSelector(selectUser);
+  const auth = getAuth(app);
   const history = useHistory();
-  const user = {};
 
   const direct = type => history.push(`/auth/${type}`);
 
@@ -21,7 +24,7 @@ const Header = () => {
         <div className="flex items-stretch">
           {user ? (
             <>
-              <button onClick={signOut} className="btn flex items-center">
+              <button onClick={() => signOut(auth)} className="btn flex items-center">
                 <LogoutIcon className='h-6 mr-1' />
                 <span className="hidden md:inline-block">Sign Out</span>
               </button>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,13 +14,33 @@ import Home from './pages/Home';
 import Edit from './pages/Edit';
 import ContactSupport from './pages/ContactSupport';
 import Qrpage from './pages/QRPage';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, logout, selectUser } from './features/userSlice';
+import { ClipLoader } from 'react-spinners';
 
 function App() {
+  const user = useSelector(selectUser);
   const auth = getAuth(app);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(auth)
+    const unsubscribe = auth.onAuthStateChanged( user => {
+      if (user) {
+        const { uid, email } = user;
+        dispatch(login({ uid, email }));
+      } else {
+        dispatch(logout());
+      }
+      setLoading(false);
+    })
+
+    return unsubscribe;
   }, [auth]);
+
+  if (loading) return <div className='h-screen w-screen grid place-items-center'>
+    <ClipLoader color="#111" loading={loading} size={100} />
+  </div>;
 
   return (
     <Router>
@@ -28,10 +48,10 @@ function App() {
         <Header />
         <Switch>
           <Route exact path="/">
-            {!auth?.currentUser ? <Home /> : <Landing />}
+            {user ? <Home /> : <Landing />}
           </Route>
           <Route exact path="/auth/:type">
-            {!auth?.currentUser ? <Redirect to="/" /> : <Auth />}
+            {user ? <Redirect to="/" /> : <Auth />}
           </Route>
           <Route exact path="/page/:qrpageid">
             <Qrpage />
@@ -51,13 +71,13 @@ function App() {
 export default App;
 
 function PrivateRoute({ children, ...rest }) {
-  const { currentUser: user } = getAuth(app);
+  const user = useSelector(selectUser);
 
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        !user ? (
+        user ? (
           children
         ) : (
           <Redirect
