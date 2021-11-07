@@ -14,7 +14,7 @@ const Qritems = () => {
   const [qrPages, setQRPages] = useState([]);
 
   useEffect(() => {
-    const q = query(collection(db, "userPages", user.uid, "qrpages"), orderBy('timestamp', 'desc'));
+    const q = query(collection(db, "pages"), where('user', '==', user.uid), orderBy('timestamp', 'desc'));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const data = [];

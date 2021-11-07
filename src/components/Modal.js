@@ -22,7 +22,8 @@ export default function Modal({ open, setOpen }) {
       
       const base64 = await QRCode.toDataURL(`${process.env.REACT_APP_FB_URL}/page/13333`);
 
-      const docRef = await addDoc(collection(db, "userPages", user.uid, "qrpages"), {
+      const docRef = await addDoc(collection(db, "pages"), {
+        user: user.uid,
         title,
         timestamp: serverTimestamp(),
         videoUrl: "",
@@ -35,7 +36,7 @@ export default function Modal({ open, setOpen }) {
       await uploadString(imageRef, base64, 'data_url')
         .then(async snapshot => {
           const downloadURL = await getDownloadURL(imageRef);
-          await updateDoc(doc(db, 'userPages', user.uid, "qrpages", docRef.id), {
+          await updateDoc(doc(db, "pages", docRef.id), {
             qrImgUrl: downloadURL
           })
         });

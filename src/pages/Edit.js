@@ -21,7 +21,7 @@ const Edit = () => {
   const history = useHistory();
   const [qrPage, setQrPage] = useState(null);
 
-  const docRef = doc(db, 'userPages', user.uid, "qrpages", qrpageid);
+  const docRef = doc(db, 'pages', qrpageid);
   const [selectedFile, setSelectedFile] = useState(null);
   const filePickerRef = useRef(null);
   const videoRef = useRef(null);
@@ -52,8 +52,9 @@ const Edit = () => {
 
   const getAndSetQRPage = async () => {
     const docSnap = await getDoc(docRef);
+    const authorized = docSnap.data().user === user.uid;
 
-    if (docSnap.exists()) {
+    if (docSnap.exists() && authorized) {
       setQrPage({ id: docSnap.id, ...docSnap.data() });
       setLoading(false);
     } else {
@@ -93,8 +94,8 @@ const Edit = () => {
 
       try {
         await uploadString(videoRef, selectedFile, 'data_url').then(async snapshot => {
-        const downloadURL = await getDownloadURL(videoRef);
-        await updateDoc(docRef, {
+          const downloadURL = await getDownloadURL(videoRef);
+          await updateDoc(docRef, {
             videoUrl: downloadURL,
             editorState: convertToRaw(editorState.getCurrentContent()),
             timestamp: serverTimestamp()
@@ -114,6 +115,24 @@ const Edit = () => {
     }
     setSaving(false);
     getAndSetQRPage();
+  }
+
+  const deleteVideo = async () => {
+    setSaving(true);
+    await updateDoc(docRef, {
+      videoUrl: "",
+      timestamp: serverTimestamp()
+    })
+
+    deleteObject(ref(storage, `video/${user.uid}/${qrPage.id}`)).then(() => {
+      // File deleted successfully
+    }).catch((error) => {
+      // Uh-oh, an error occurred!
+      alert(error)
+    });
+
+    getAndSetQRPage();
+    setSaving(false);
   }
 
 
@@ -158,12 +177,22 @@ const Edit = () => {
               setSelectedFile(null)
               goToTop();
             }} className="w-full p-6 bg-red-400 rounded-3xl my-3 text-center text-xl text-gray-50">
-              Delete uploaded video
+              Undo video upload
             </button>
           ) : (
-            <button onClick={() => filePickerRef.current.click()} className="w-full p-6 bg-gray-100 rounded-3xl my-3 text-center text-xl text-gray-800">
+            <div className='grid grid-cols-1 sm:grid-cols-2 items-center grid-rows-1 gap-1'>
+            <button onClick={() => filePickerRef.current.click()} className="p-6 bg-gray-100 rounded-3xl my-3 text-center text-xl text-gray-800">
               {qrPage?.videoUrl ? 'Upload different video' : 'Upload video'}
             </button>
+            {qrPage?.videoUrl && (
+              <button onClick={() => {
+                deleteVideo();
+                goToTop();
+              }} className="p-6 bg-red-400 rounded-3xl mb-3 sm:my-3 text-center text-xl text-gray-50">
+                Delete video permanently
+              </button>
+            )}
+            </div>
           )}
         
         </div>
