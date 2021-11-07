@@ -4,20 +4,14 @@ import { useHistory, useParams } from 'react-router-dom';
 import {EditorState} from 'draft-js';
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { doc, updateDoc } from "firebase/firestore";
 
 
 const Edit = () => {
+  // check if the id in docs of the user, to make sure the user edits own doc else redirect
   const { qrpageid } = useParams();
   const history = useHistory();
-
-  const [qrPage, setQrPage] = useState({
-    id: "133",
-    title: 'Airbnb Canyon Ranch Leave Instructions',
-    editorState: {},
-    timestamp: "6:08:48 AM",
-    videoUrl: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
-    qrImgUrl: "https://miro.medium.com/max/990/1*FX_LPYdLaX1IPlohROEaQA.jpeg"
-  });
+  const [qrPage, setQrPage] = useState(null);
 
   const [selectedFile, setSelectedFile] = useState(null);
   const filePickerRef = useRef(null);
@@ -50,6 +44,23 @@ const Edit = () => {
   useEffect(() => {
     console.log(editorState)
   }, [editorState]);
+
+    // {
+  //   id: "13333",
+  //   title: 'Airbnb Canyon Ranch Stay Rules',
+  //   editorState: {},
+  //   timestamp: "6:08:48 AM",
+  //   videoUrl: "",
+  //   qrImgUrl: "https://miro.medium.com/max/990/1*FX_LPYdLaX1IPlohROEaQA.jpeg",
+  //   qrImgBase64: ''
+  // }
+
+  // const washingtonRef = doc(db, "cities", "DC");
+
+  // // Set the "capital" field of the city 'DC'
+  // await updateDoc(washingtonRef, {
+  //   capital: true
+  // });
 
   return (
     <div className='mod-container relative'>

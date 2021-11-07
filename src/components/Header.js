@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
 import { app } from '../firebase';
-import { CogIcon, LogoutIcon, SupportIcon } from '@heroicons/react/outline';
+import { LogoutIcon, SupportIcon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../features/userSlice';
 

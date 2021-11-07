@@ -2,10 +2,49 @@
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { QrcodeIcon } from '@heroicons/react/outline'
+import { useSelector } from 'react-redux';
+import { selectUser } from '../features/userSlice';
+import QRCode from 'qrcode';
+import { addDoc, collection, serverTimestamp, updateDoc, doc } from '@firebase/firestore';
+import { ref, getDownloadURL, uploadString } from '@firebase/storage';
+import { db, storage } from '../firebase';
 
 export default function Modal({ open, setOpen }) {
+  const user = useSelector(selectUser);
+  const cancelButtonRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState("");
 
-  const cancelButtonRef = useRef(null)
+  const createQRPage = async () => {
+    if (title.trim() && !loading) {
+      setLoading(true);
+      
+      const base64 = await QRCode.toDataURL(`${process.env.REACT_APP_FB_URL}/page/13333`);
+
+      const docRef = await addDoc(collection(db, "userPages", user.uid, "qrpages"), {
+        title,
+        editorState: {},
+        timestamp: serverTimestamp(),
+        videoUrl: "",
+        qrImgUrl: "",
+        qrImgBase64: base64
+      });
+  
+      const imageRef = ref(storage, `qrs/${user.uid}/${docRef.id}/image`);
+      
+      await uploadString(imageRef, base64, 'data_url')
+        .then(async snapshot => {
+          const downloadURL = await getDownloadURL(imageRef);
+          await updateDoc(doc(db, 'userPages', user.uid, "qrpages", docRef.id), {
+            qrImgUrl: downloadURL
+          })
+        });
+      
+      setLoading(false);
+      setTitle('');
+      setOpen(false);
+    }
+  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -46,8 +85,11 @@ export default function Modal({ open, setOpen }) {
                     <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900 my-2">
                       Create QR page
                     </Dialog.Title>
-                    <form className="w-full">
-                      <input className='py-2 px-3 border rounded-3xl w-full' type="text" name="title" id="titleInput" placeholder='Choose a title...' required/>
+                    <form onSubmit={(e) => {
+                      e.preventDefault();
+                      createQRPage();
+                    }} className="w-full">
+                      <input className='py-2 px-3 border rounded-3xl w-full' type="text" name="title" id="titleInput" placeholder='Choose a title...' required value={title} onChange={({target}) => setTitle(target.value)} />
                     </form>
                   </div>
                 </div>
@@ -55,8 +97,9 @@ export default function Modal({ open, setOpen }) {
               <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-600 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                  onClick={() => setOpen(false)}
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-600 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  onClick={createQRPage}
+                  disabled={loading}
                 >
                   Create page
                 </button>
@@ -65,6 +108,7 @@ export default function Modal({ open, setOpen }) {
                   className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                   onClick={() => setOpen(false)}
                   ref={cancelButtonRef}
+                  disabled={loading}
                 >
                   Cancel
                 </button>
