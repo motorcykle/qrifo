@@ -24,7 +24,10 @@ const Header = () => {
         <div className="flex items-stretch">
           {user ? (
             <>
-              <button onClick={() => signOut(auth)} className="btn flex items-center">
+              <button onClick={() => {
+                signOut(auth);
+                history.push('/');
+              }} className="btn flex items-center">
                 <LogoutIcon className='h-6 mr-1' />
                 <span className="hidden md:inline-block">Sign Out</span>
               </button>

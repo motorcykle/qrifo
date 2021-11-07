@@ -17,6 +17,7 @@ import Qrpage from './pages/QRPage';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout, selectUser } from './features/userSlice';
 import { ClipLoader } from 'react-spinners';
+import Notfound from './pages/NotFound';
 
 function App() {
   const user = useSelector(selectUser);
@@ -39,7 +40,7 @@ function App() {
   }, [auth]);
 
   if (loading) return <div className='h-screen w-screen grid place-items-center'>
-    <ClipLoader color="#111" loading={loading} size={100} />
+    <ClipLoader color="#1d1d1d" loading={loading} size={100} />
   </div>;
 
   return (
@@ -62,6 +63,9 @@ function App() {
           <PrivateRoute exact path="/contactsupport">
             <ContactSupport />
           </PrivateRoute>
+          <Route path="/*">
+            <Notfound />
+          </Route>
         </Switch>
       </div>
     </Router>

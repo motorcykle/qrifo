@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AddIcon from '../assets/add.png';
 import Qritem from './QRItem';
 import Modal from './Modal';
-import { collection, query, where, onSnapshot, doc } from "firebase/firestore";
+import { collection, query, where, onSnapshot, doc, orderBy } from "firebase/firestore";
 import { useSelector } from 'react-redux';
 import { selectUser } from '../features/userSlice';
 import { db } from '../firebase';
@@ -14,7 +14,7 @@ const Qritems = () => {
   const [qrPages, setQRPages] = useState([]);
 
   useEffect(() => {
-    const q = query(collection(db, "userPages", user.uid, "qrpages"));
+    const q = query(collection(db, "userPages", user.uid, "qrpages"), orderBy('timestamp', 'desc'));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const data = [];
