@@ -13,7 +13,7 @@ const ContactSupport = () => {
         </button>
       </header>
     
-      contact support
+      <p className='mt-4' >Email: mohamedabdulridha1@gmail.com</p>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { ClipLoader } from 'react-spinners';
 import { convertFromRaw, EditorState } from 'draft-js';
 import {stateToHTML} from 'draft-js-export-html';
 import parse from 'html-react-parser';
+import ReactPlayer from 'react-player';
 
 const Qrpage = () => {
   const { qrpageid } = useParams();
@@ -33,31 +34,24 @@ const Qrpage = () => {
   }, [qrpageid]);
 
   useEffect(() => {
-    console.log(qrPage)
-    if (qrPage) {
-      let html1 = stateToHTML(convertFromRaw(qrPage?.editorState));
-      console.log(html1)
+    if (qrPage && qrPage?.editorState) {
+      let html1 = stateToHTML(convertFromRaw(qrPage.editorState));
       setHere(html1)
     }
     
   }, [qrPage]);
-
-
-  // adding options to html parser is needed
-  // 
-  // 
-  // 
-
-
 
   if (loading) return <div className='h-screen w-screen grid place-items-center'>
     <ClipLoader color="#1d1d1d" loading={loading} size={100} />
   </div>;
 
   return (
-    <div className='mod-container'>
-      {parse(here)}
+    <div className='mod-container prose'>
+      {qrPage?.videoUrl && <div className='w-full grid place-items-center mb-16'>
+        <ReactPlayer controls url={qrPage.videoUrl} />
+      </div>}
 
+      {parse(here)}
     </div>
   );
 }

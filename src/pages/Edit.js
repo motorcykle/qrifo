@@ -203,6 +203,9 @@ const Edit = () => {
             onEditorStateChange={onEditorStateChange}
             toolbarClassName=""
             editorClassName="bg-white shadow-lg border p-10 min-h-screen my-2"
+            toolbar={{
+              options: ['inline', 'blockType', 'list', 'link', 'embedded', 'emoji', 'image', 'remove', 'history']
+            }}
           />
         </div>
         </>

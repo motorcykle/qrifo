@@ -19,8 +19,8 @@ export default function Modal({ open, setOpen }) {
   const createQRPage = async () => {
     if (title.trim() && !loading) {
       setLoading(true);
-      
-      const base64 = await QRCode.toDataURL(`${process.env.REACT_APP_FB_URL}/page/13333`);
+
+      // uPloadddd
 
       const docRef = await addDoc(collection(db, "pages"), {
         user: user.uid,
@@ -28,8 +28,10 @@ export default function Modal({ open, setOpen }) {
         timestamp: serverTimestamp(),
         videoUrl: "",
         qrImgUrl: "",
-        qrImgBase64: base64
-      });
+        qrImgBase64: "",
+      })
+      
+      const base64 = await QRCode.toDataURL(`${process.env.REACT_APP_FB_URL}/page/${docRef.id}`);
   
       const imageRef = ref(storage, `qrs/${user.uid}/${docRef.id}/image`);
       
@@ -37,7 +39,8 @@ export default function Modal({ open, setOpen }) {
         .then(async snapshot => {
           const downloadURL = await getDownloadURL(imageRef);
           await updateDoc(doc(db, "pages", docRef.id), {
-            qrImgUrl: downloadURL
+            qrImgUrl: downloadURL,
+            qrImgBase64: base64,
           })
         });
       

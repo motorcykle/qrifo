@@ -18,7 +18,12 @@ const Qritems = () => {
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const data = [];
-      querySnapshot.forEach((doc) => data.push({ id: doc.id, ...doc.data() }));
+      querySnapshot.forEach(async (doc) => {
+
+        if (doc.data().qrImgUrl) 
+          data.push({ id: doc.id, ...doc.data() })
+        
+      });
       setQRPages(data);
     });
 
