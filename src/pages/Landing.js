@@ -12,7 +12,7 @@ const Landing = () => {
           or any info - make it electronic 
         </span>
       </h1>
-      <div className="flex items-center flex-col py-10 px-3 sm:text-center">
+      <div className="flex items-center flex-col px-3 sm:text-center">
         <p className="text-4xl sm:text-7xl font-bold">
           rules, instructions, messages <br className='hidden md:inline-block' />
           or any info - make it electronic 
