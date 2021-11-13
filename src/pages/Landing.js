@@ -19,7 +19,7 @@ const Landing = () => {
         </p>
         
         <p className='sm:text-2xl max-w-3xl mt-7 mb-14 opacity-70 leading-9'>
-          with qrifo we use the most complicated technologies of all: the QR code to digitalize static, unsustainable and limited texts 
+          with qrifo we use the most sophisticated technologies of all: the QR code to digitalize static, unsustainable and limited texts 
         </p>
 
         <div className="flex flex-col">
